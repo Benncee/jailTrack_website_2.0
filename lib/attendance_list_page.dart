@@ -1,41 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/approve_sched_page.dart';
-import 'package:flutter_application_2/attendance_list_page.dart';
 import 'package:flutter_application_2/dashboard.dart';
 import 'package:flutter_application_2/font_page_of_scheduling.dart';
-import 'package:flutter_application_2/main.dart'; // Adjust the import path as necessary
+import 'package:flutter_application_2/main.dart';
+import 'package:flutter_application_2/notification_page.dart';
+import 'package:flutter_application_2/second_scheduling_page.dart';
 import 'package:flutter_application_2/setting_page.dart';
 import 'package:flutter_application_2/view_officer_tracking.dart';
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({Key? key}) : super(key: key);
-
-  @override
-  _NotificationPageState createState() => _NotificationPageState();
-}
-
-class _NotificationPageState extends State<NotificationPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<String> notifications = [
-    'User 7777 has requested to register an account.',
-    'JO1 Junas Nazarito O. Gutib has requested to swap schedule',
-    // Add more notifications if needed
-  ];
-
-  void _navigateToOfficerRequest() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
-    );
-  }
-
+class AttendanceListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: const Color.fromARGB(
-          255, 243, 243, 243), // Set background color to black
+      backgroundColor:
+          Colors.grey[850], // Set the background color to dark gray
       appBar: AppBar(
         backgroundColor:
             Colors.grey[900], // Dark grey color for the app bar background
@@ -269,37 +247,87 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(notifications[index]),
-                    ),
-                  );
-                },
+      body: Center(
+        child: Container(
+          width: 1800,
+          height: 800,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 255, 255, 255),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          child: SingleChildScrollView(
+            child: DataTable(
+              columns: <DataColumn>[
+                DataColumn(
+                  label: Text(
+                    'User ID',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Make text bold and black
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Name',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Make text bold and black
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Date',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Make text bold and black
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Designation/Assignment',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Make text bold and black
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Time In',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Make text bold and black
+                  ),
+                ),
+                DataColumn(
+                  label: Text(
+                    'Time Out',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black), // Make text bold and black
+                  ),
+                ),
+              ],
+              rows: List<DataRow>.generate(
+                30,
+                (index) => DataRow(
+                  cells: <DataCell>[
+                    DataCell(Text('UserID$index',
+                        style: TextStyle(color: Colors.black))),
+                    DataCell(Text('Name$index',
+                        style: TextStyle(color: Colors.black))),
+                    DataCell(Text('Date$index',
+                        style: TextStyle(color: Colors.black))),
+                    DataCell(Text('Designation/Assignment$index',
+                        style: TextStyle(color: Colors.black))),
+                    DataCell(Text('TimeIn$index',
+                        style: TextStyle(color: Colors.black))),
+                    DataCell(Text('TimeOut$index',
+                        style: TextStyle(color: Colors.black))),
+                  ],
+                ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Button background color
-                ),
-                onPressed: _navigateToOfficerRequest,
-                child: const Text(
-                  'Officer Request',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

@@ -1,41 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/about_us_page.dart';
 import 'package:flutter_application_2/approve_sched_page.dart';
 import 'package:flutter_application_2/attendance_list_page.dart';
+import 'package:flutter_application_2/edit_profile_page.dart';
+import 'package:flutter_application_2/feedback_page.dart';
 import 'package:flutter_application_2/dashboard.dart';
 import 'package:flutter_application_2/font_page_of_scheduling.dart';
-import 'package:flutter_application_2/main.dart'; // Adjust the import path as necessary
-import 'package:flutter_application_2/setting_page.dart';
-import 'package:flutter_application_2/view_officer_tracking.dart';
+import 'package:flutter_application_2/main.dart';
+import 'package:flutter_application_2/notification_page.dart';
+import 'package:flutter_application_2/view_officer_tracking.dart'; // Update the import here
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({Key? key}) : super(key: key);
-
+class SettingsPage extends StatelessWidget {
   @override
-  _NotificationPageState createState() => _NotificationPageState();
-}
-
-class _NotificationPageState extends State<NotificationPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<String> notifications = [
-    'User 7777 has requested to register an account.',
-    'JO1 Junas Nazarito O. Gutib has requested to swap schedule',
-    // Add more notifications if needed
-  ];
-
-  void _navigateToOfficerRequest() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'JailTrack',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: OfficerListScreen(),
     );
   }
+}
 
+class OfficerListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: const Color.fromARGB(
-          255, 243, 243, 243), // Set background color to black
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         backgroundColor:
             Colors.grey[900], // Dark grey color for the app bar background
@@ -76,7 +68,6 @@ class _NotificationPageState extends State<NotificationPage> {
           ),
         ],
       ),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -268,40 +259,106 @@ class _NotificationPageState extends State<NotificationPage> {
           ],
         ),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(notifications[index]),
+      body: Center(
+        child: Container(
+          width: 700,
+          height: 800,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  height: 50,
+                  child: Center(
+                    child: Text(
+                      'Settings',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Button background color
+                  ),
                 ),
-                onPressed: _navigateToOfficerRequest,
-                child: const Text(
-                  'Officer Request',
-                  style: TextStyle(color: Colors.white),
+                Divider(),
+                ListTile(
+                  title: Text('Edit Profile'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            EditProfilePage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return child;
+                        },
+                      ),
+                    );
+                  },
                 ),
-              ),
+                Divider(),
+                ListTile(
+                  title: Text('About Us'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            AboutUsPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return child;
+                        },
+                      ),
+                    );
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('Send Feedback'),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      PageRouteBuilder(
+                        pageBuilder: (context, animation, secondaryAnimation) =>
+                            FeedbackPage(),
+                        transitionsBuilder:
+                            (context, animation, secondaryAnimation, child) {
+                          return child;
+                        },
+                      ),
+                    );
+                  },
+                ),
+                Divider(),
+                ListTile(
+                  title: Text('Logout'),
+                  onTap: () {
+                    // Handle Logout
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
+    );
+  }
+}
+
+class SignInPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Sign In')),
+      body: Center(child: Text('Sign In Page')),
     );
   }
 }

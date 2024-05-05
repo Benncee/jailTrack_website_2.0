@@ -3,39 +3,43 @@ import 'package:flutter_application_2/approve_sched_page.dart';
 import 'package:flutter_application_2/attendance_list_page.dart';
 import 'package:flutter_application_2/dashboard.dart';
 import 'package:flutter_application_2/font_page_of_scheduling.dart';
-import 'package:flutter_application_2/main.dart'; // Adjust the import path as necessary
+import 'package:flutter_application_2/main.dart';
+import 'package:flutter_application_2/notification_page.dart';
 import 'package:flutter_application_2/setting_page.dart';
 import 'package:flutter_application_2/view_officer_tracking.dart';
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({Key? key}) : super(key: key);
-
+class SecondschedulingPage extends StatelessWidget {
   @override
-  _NotificationPageState createState() => _NotificationPageState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'JailTrack',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: OfficerListScreen(),
+    );
+  }
 }
 
-class _NotificationPageState extends State<NotificationPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+class OfficerListScreen extends StatefulWidget {
+  @override
+  _OfficerListScreenState createState() => _OfficerListScreenState();
+}
 
-  List<String> notifications = [
-    'User 7777 has requested to register an account.',
-    'JO1 Junas Nazarito O. Gutib has requested to swap schedule',
-    // Add more notifications if needed
-  ];
+class _OfficerListScreenState extends State<OfficerListScreen> {
+  List<Team> teams = []; // Define teams list here
 
-  void _navigateToOfficerRequest() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
-    );
+  void deleteTeam(Team team) {
+    setState(() {
+      teams.remove(team);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: const Color.fromARGB(
-          255, 243, 243, 243), // Set background color to black
+      backgroundColor:
+          Colors.grey[850], // Set the background color to dark gray
       appBar: AppBar(
         backgroundColor:
             Colors.grey[900], // Dark grey color for the app bar background
@@ -269,35 +273,240 @@ class _NotificationPageState extends State<NotificationPage> {
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(notifications[index]),
-                    ),
-                  );
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment:
+                MainAxisAlignment.center, // Center the column vertically
+            children: teams
+                .map((team) => TeamTable(
+                      team: team,
+                      onDelete: () =>
+                          deleteTeam(team), // Pass deleteTeam method
+                    ))
+                .toList(),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return TeamDialog(
+                onCreate: (team) {
+                  setState(() {
+                    teams.add(team);
+                  });
                 },
+              );
+            },
+          );
+        },
+        child: Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class Team {
+  final String name;
+  final List<String> members;
+
+  Team({required this.name, required this.members});
+}
+
+class TeamTable extends StatelessWidget {
+  final Team team;
+  final VoidCallback onDelete;
+
+  TeamTable({required this.team, required this.onDelete});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 1000,
+      height: 400,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      padding: EdgeInsets.all(16.0),
+      margin: EdgeInsets.symmetric(vertical: 10.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Team Name: ${team.name}',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: onDelete,
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Text(
+            'Team Members:',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Expanded(
+            child: SingleChildScrollView(
+              // Added SingleChildScrollView here
+              child: DataTable(
+                columns: [
+                  DataColumn(
+                      label: Text(
+                    'Officer Names:',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  )),
+                ],
+                rows: team.members
+                    .map(
+                      (member) => DataRow(
+                        cells: [
+                          DataCell(Text(member)),
+                        ],
+                      ),
+                    )
+                    .toList(),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Button background color
-                ),
-                onPressed: _navigateToOfficerRequest,
-                child: const Text(
-                  'Officer Request',
-                  style: TextStyle(color: Colors.white),
-                ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TeamDialog extends StatefulWidget {
+  final Function(Team) onCreate;
+
+  TeamDialog({required this.onCreate});
+
+  @override
+  _TeamDialogState createState() => _TeamDialogState();
+}
+
+class _TeamDialogState extends State<TeamDialog> {
+  late TextEditingController _nameController;
+  List<String> _officerNames = [
+    'Officer Adams',
+    'Officer Baker',
+    'Officer Clark',
+    'Officer Davis',
+    'Officer Evans',
+    'Officer Ian',
+    'Officer Mark',
+    'Officer Hans',
+    'Officer James',
+    'Officer Junas',
+    'Officer Ceidner',
+    'Officer Bordz',
+    'Officer Gae',
+    'Officer Jason',
+    'Officer Arht',
+    'Officer Jimmuel',
+    'Officer Cris',
+    'Officer Test',
+    'Officer Test1',
+    'Officer Test2',
+    // Add more names as needed
+  ];
+  List<String> _selectedOfficers = []; // List to hold selected officers
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _onOfficerSelected(bool selected, String officerName) {
+    setState(() {
+      if (selected) {
+        _selectedOfficers.add(officerName);
+      } else {
+        _selectedOfficers.remove(officerName);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      child: Container(
+        width: 450,
+        height: 600,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Create New Team',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
               ),
+            ),
+            SizedBox(height: 16),
+            TextFormField(
+              controller: _nameController,
+              decoration: InputDecoration(
+                labelText: 'Team Name',
+              ),
+            ),
+            Expanded(
+              child: ListView(
+                children: _officerNames.map((officerName) {
+                  return CheckboxListTile(
+                    title: Text(officerName),
+                    value: _selectedOfficers.contains(officerName),
+                    onChanged: (bool? value) {
+                      if (value != null) {
+                        _onOfficerSelected(value, officerName);
+                      }
+                    },
+                  );
+                }).toList(),
+              ),
+            ),
+            SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cancel'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    final teamName = _nameController.text;
+                    final team =
+                        Team(name: teamName, members: _selectedOfficers);
+                    widget.onCreate(team);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Create'),
+                ),
+              ],
             ),
           ],
         ),

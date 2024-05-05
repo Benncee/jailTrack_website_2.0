@@ -76,24 +76,45 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text(widget.title),
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.asset('icons/jailtracklogo.png'), // Ensure the asset exists
+        backgroundColor:
+            Colors.grey[900], // Dark grey color for the app bar background
+        titleSpacing:
+            0.0, // Remove default spacing between title and leading widget
+
+        title: Row(
+          children: [
+            Image.asset(
+              'icons/JailTrackLogo.png', // Provide the path to your logo image
+              height: 60,
+              width: 60, // Adjust the height of the logo as needed
+            ),
+            const SizedBox(width: 8), // Add space between logo and title
+            const Text(
+              'JAILTRACK',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the app bar text
+            ),
+          ],
         ),
+
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (context) => const SignInPage()),
               );
             },
-            child: const Text('Sign up', style: TextStyle(color: Colors.white)),
+            child: const Text(
+              'Sign In',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the logout text
+            ),
           ),
         ],
       ),
-      
       body: Stack(
         children: [
           ColorFiltered(
@@ -155,8 +176,10 @@ class _MyHomePageState extends State<MyHomePage> {
                       const SizedBox(height: 30.0),
                       ElevatedButton(
                         style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                          foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(Colors.black),
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.white),
                         ),
                         onPressed: _login,
                         child: const Text('Login'),

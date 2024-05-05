@@ -3,39 +3,28 @@ import 'package:flutter_application_2/approve_sched_page.dart';
 import 'package:flutter_application_2/attendance_list_page.dart';
 import 'package:flutter_application_2/dashboard.dart';
 import 'package:flutter_application_2/font_page_of_scheduling.dart';
-import 'package:flutter_application_2/main.dart'; // Adjust the import path as necessary
+import 'package:flutter_application_2/main.dart';
+import 'package:flutter_application_2/notification_page.dart';
 import 'package:flutter_application_2/setting_page.dart';
-import 'package:flutter_application_2/view_officer_tracking.dart';
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({Key? key}) : super(key: key);
-
+class ViewOfficersPage extends StatelessWidget {
   @override
-  _NotificationPageState createState() => _NotificationPageState();
-}
-
-class _NotificationPageState extends State<NotificationPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<String> notifications = [
-    'User 7777 has requested to register an account.',
-    'JO1 Junas Nazarito O. Gutib has requested to swap schedule',
-    // Add more notifications if needed
-  ];
-
-  void _navigateToOfficerRequest() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'JailTrack',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: OfficerListScreen(),
     );
   }
+}
 
+class OfficerListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: const Color.fromARGB(
-          255, 243, 243, 243), // Set background color to black
+      backgroundColor: Colors.grey[850],
       appBar: AppBar(
         backgroundColor:
             Colors.grey[900], // Dark grey color for the app bar background
@@ -76,7 +65,6 @@ class _NotificationPageState extends State<NotificationPage> {
           ),
         ],
       ),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -268,38 +256,118 @@ class _NotificationPageState extends State<NotificationPage> {
           ],
         ),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(notifications[index]),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey[300],
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Search Officers',
+                      border: InputBorder.none,
+                      prefixIcon: Icon(Icons.search),
                     ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Button background color
-                ),
-                onPressed: _navigateToOfficerRequest,
-                child: const Text(
-                  'Officer Request',
-                  style: TextStyle(color: Colors.white),
+                  ),
                 ),
               ),
-            ),
-          ],
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: DataTable(
+                        columns: [
+                          DataColumn(
+                            label: Text(
+                              'Name',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Rank',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Email',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Mobile',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          DataColumn(
+                            label: Text(
+                              'Actions',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                        rows: List<DataRow>.generate(
+                          30,
+                          (index) => DataRow(
+                            cells: <DataCell>[
+                              DataCell(Text('Name$index')),
+                              DataCell(Text('Rank$index')),
+                              DataCell(Text('Email$index')),
+                              DataCell(Text('Mobile$index')),
+                              DataCell(
+                                IconButton(
+                                  icon: Icon(Icons.delete),
+                                  onPressed: () {
+                                    // Implement delete action
+                                  },
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: PopupMenuButton(
+                      itemBuilder: (BuildContext context) {
+                        return [
+                          PopupMenuItem(
+                            child: Text('View Officer Facial Data'),
+                            value: 'view_facial_data',
+                          ),
+                        ];
+                      },
+                      icon: Icon(Icons.more_vert),
+                      onSelected: (value) {
+                        if (value == 'view_facial_data') {
+                          // Handle view officer facial data action
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

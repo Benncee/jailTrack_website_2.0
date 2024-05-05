@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_2/approve_sched_page.dart';
-import 'package:flutter_application_2/escort_tracking.dart';
+import 'package:flutter_application_2/attendance_list_page.dart';
+import 'package:flutter_application_2/font_page_of_scheduling.dart';
 import 'package:flutter_application_2/main.dart';
 import 'package:flutter_application_2/notification_page.dart';
-import 'package:flutter_application_2/scheduling_system.dart';
+import 'package:flutter_application_2/setting_page.dart';
+import 'package:flutter_application_2/view_officer_tracking.dart';
 
 class DashBoardPage extends StatefulWidget {
   const DashBoardPage({Key? key}) : super(key: key);
@@ -14,7 +16,6 @@ class DashBoardPage extends StatefulWidget {
 
 class _DashBoardPageState extends State<DashBoardPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,26 @@ class _DashBoardPageState extends State<DashBoardPage> {
       appBar: AppBar(
         backgroundColor:
             Colors.grey[900], // Dark grey color for the app bar background
-        title: const Text(
-          'JAILTRACK',
-          style: TextStyle(
-              color: Colors.white), // White color for the app bar text
+        titleSpacing:
+            0.0, // Remove default spacing between title and leading widget
+
+        title: Row(
+          children: [
+            Image.asset(
+              'icons/JailTrackLogo.png', // Provide the path to your logo image
+              height: 60,
+              width: 60, // Adjust the height of the logo as needed
+            ),
+            const SizedBox(width: 8), // Add space between logo and title
+            const Text(
+              'JAILTRACK',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the app bar text
+            ),
+          ],
         ),
+
         actions: [
           TextButton(
             onPressed: () {
@@ -40,12 +56,12 @@ class _DashBoardPageState extends State<DashBoardPage> {
             child: const Text(
               'Logout',
               style: TextStyle(
-                  color: Colors.white), // White color for the logout text
+                color: Colors.white,
+              ), // White color for the logout text
             ),
           ),
         ],
       ),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -55,7 +71,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 color: Colors.grey,
               ),
               child: Text(
-                'Menu',
+                'JailTrack',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
@@ -132,7 +148,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ScheduleSystemPage()),
+                  MaterialPageRoute(
+                      builder: (context) => FrontschedulingPage()),
                 );
               },
             ),
@@ -155,9 +172,9 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 // Navigate to View Officers page
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
-                  context,
-                MaterialPageRoute(builder: (context) => const EscortTrackingPage())
-                );
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewOfficersPage()));
               },
             ),
             ListTile(
@@ -180,7 +197,8 @@ class _DashBoardPageState extends State<DashBoardPage> {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const ApproveSchedPage()),
                 );
               },
             ),
@@ -202,7 +220,10 @@ class _DashBoardPageState extends State<DashBoardPage> {
               onTap: () {
                 // Navigate to Attendance List page
                 Navigator.pop(context); // Close the drawer
-                // Add navigation logic here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AttendanceListPage()),
+                );
               },
             ),
             ListTile(
@@ -223,18 +244,17 @@ class _DashBoardPageState extends State<DashBoardPage> {
               onTap: () {
                 // Navigate to Settings page
                 Navigator.pop(context); // Close the drawer
-                // Add navigation logic here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
               },
             ),
           ],
         ),
       ),
-
-
       onDrawerChanged: (isOpen) {
-        setState(() {
-         
-        });
+        setState(() {});
       },
       body: SingleChildScrollView(
         child: Stack(

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_2/attendance_list_page.dart';
 import 'package:flutter_application_2/dashboard.dart'; // Make sure DashBoardPage is defined here
-import 'package:flutter_application_2/escort_tracking.dart';
+import 'package:flutter_application_2/font_page_of_scheduling.dart';
 import 'package:flutter_application_2/main.dart'; // Assuming MyApp is defined here
 import 'package:flutter_application_2/notification_page.dart';
+import 'package:flutter_application_2/setting_page.dart';
+import 'package:flutter_application_2/view_officer_tracking.dart';
 
 class ApproveSchedPage extends StatefulWidget {
   const ApproveSchedPage({Key? key}) : super(key: key);
@@ -21,8 +24,28 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
       backgroundColor:
           Colors.black, // Set background color of the page to black
       appBar: AppBar(
-        backgroundColor: Colors.grey[900],
-        title: const Text('JAILTRACK'),
+        backgroundColor:
+            Colors.grey[900], // Dark grey color for the app bar background
+        titleSpacing:
+            0.0, // Remove default spacing between title and leading widget
+
+        title: Row(
+          children: [
+            Image.asset(
+              'icons/JailTrackLogo.png', // Provide the path to your logo image
+              height: 60,
+              width: 60, // Adjust the height of the logo as needed
+            ),
+            const SizedBox(width: 8), // Add space between logo and title
+            const Text(
+              'JAILTRACK',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the app bar text
+            ),
+          ],
+        ),
+
         actions: [
           TextButton(
             onPressed: () {
@@ -31,7 +54,12 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
                 MaterialPageRoute(builder: (context) => const MyApp()),
               );
             },
-            child: const Text('Logout', style: TextStyle(color: Colors.white)),
+            child: const Text(
+              'Logout',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the logout text
+            ),
           ),
         ],
       ),
@@ -45,7 +73,7 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
                 color: Colors.grey,
               ),
               child: Text(
-                'Menu',
+                'JailTrack',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 24,
@@ -122,7 +150,8 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ApproveSchedPage()),
+                  MaterialPageRoute(
+                      builder: (context) => FrontschedulingPage()),
                 );
               },
             ),
@@ -144,10 +173,10 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
               onTap: () {
                 // Navigate to View Officers page
                 Navigator.pop(context); // Close the drawer
-                 Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const EscortTrackingPage()),
-                );
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ViewOfficersPage()));
               },
             ),
             ListTile(
@@ -170,7 +199,8 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
                 Navigator.pop(context); // Close the drawer
                 Navigator.push(
                   context,
-                MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
+                  MaterialPageRoute(
+                      builder: (context) => const ApproveSchedPage()),
                 );
               },
             ),
@@ -192,7 +222,10 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
               onTap: () {
                 // Navigate to Attendance List page
                 Navigator.pop(context); // Close the drawer
-                // Add navigation logic here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => AttendanceListPage()),
+                );
               },
             ),
             ListTile(
@@ -213,7 +246,10 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
               onTap: () {
                 // Navigate to Settings page
                 Navigator.pop(context); // Close the drawer
-                // Add navigation logic here
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()),
+                );
               },
             ),
           ],
@@ -281,7 +317,8 @@ class _ApproveSchedPageState extends State<ApproveSchedPage> {
                         children: [
                           const Text('JO1 Junas Gutib',
                               style: TextStyle(color: Colors.black)),
-                          const Text('Swap', style: TextStyle(color: Colors.black)),
+                          const Text('Swap',
+                              style: TextStyle(color: Colors.black)),
                           const Text('Jail Officer 2 Buffa',
                               style: TextStyle(color: Colors.black)),
                           const Text('May 23, 2023\n8:30am-4:30pm',

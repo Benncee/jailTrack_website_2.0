@@ -3,39 +3,17 @@ import 'package:flutter_application_2/approve_sched_page.dart';
 import 'package:flutter_application_2/attendance_list_page.dart';
 import 'package:flutter_application_2/dashboard.dart';
 import 'package:flutter_application_2/font_page_of_scheduling.dart';
-import 'package:flutter_application_2/main.dart'; // Adjust the import path as necessary
+import 'package:flutter_application_2/main.dart';
+import 'package:flutter_application_2/notification_page.dart';
 import 'package:flutter_application_2/setting_page.dart';
 import 'package:flutter_application_2/view_officer_tracking.dart';
 
-class NotificationPage extends StatefulWidget {
-  const NotificationPage({Key? key}) : super(key: key);
-
-  @override
-  _NotificationPageState createState() => _NotificationPageState();
-}
-
-class _NotificationPageState extends State<NotificationPage> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  List<String> notifications = [
-    'User 7777 has requested to register an account.',
-    'JO1 Junas Nazarito O. Gutib has requested to swap schedule',
-    // Add more notifications if needed
-  ];
-
-  void _navigateToOfficerRequest() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const ApproveSchedPage()),
-    );
-  }
-
+class AboutUsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: const Color.fromARGB(
-          255, 243, 243, 243), // Set background color to black
+      backgroundColor:
+          Colors.grey[850], // Set the background color to dark gray
       appBar: AppBar(
         backgroundColor:
             Colors.grey[900], // Dark grey color for the app bar background
@@ -76,7 +54,6 @@ class _NotificationPageState extends State<NotificationPage> {
           ),
         ],
       ),
-
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -268,38 +245,76 @@ class _NotificationPageState extends State<NotificationPage> {
           ],
         ),
       ),
-
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                itemCount: notifications.length,
-                itemBuilder: (context, index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text(notifications[index]),
+      body: Center(
+        child: Container(
+          width: 1800,
+          height: 800,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 189, 186, 186),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 300,
+                  right: 0,
+                  child: Opacity(
+                    opacity: 0.3,
+                    child: Image.asset(
+                      'icons/jail1.png',
+                      width: 500,
+                      height: 500,
                     ),
-                  );
-                },
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
-              width: double.infinity,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Button background color
+                  ),
                 ),
-                onPressed: _navigateToOfficerRequest,
-                child: const Text(
-                  'Officer Request',
-                  style: TextStyle(color: Colors.white),
+                Positioned(
+                  top: 270,
+                  left: 0,
+                  child: Opacity(
+                    opacity: 0.3,
+                    child: Image.asset(
+                      'icons/jail2.png',
+                      width: 500,
+                      height: 500,
+                    ),
+                  ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'About Us',
+                        style: TextStyle(
+                          fontSize: 100,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Divider(),
+                      SizedBox(height: 20),
+                      Text(
+                        'JAILTRACK: A Face Recognition-Based Solution for Shift Scheduling and Attendance Monitoring of Jail Officers',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      Text(
+                        'Welcome to JAILTRACK, a cutting-edge face recognition-based solution designed to revolutionize shift scheduling and attendance monitoring for jail officers. Our innovative system harnesses the power of facial technology to streamline and enhance the management of jail personnel, ensuring a secure and efficient jail facility environment.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

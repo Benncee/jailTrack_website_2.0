@@ -9,22 +9,41 @@ class SignInPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 14, 14, 14),
       appBar: AppBar(
-        backgroundColor: Colors.grey[900], // Dark grey navbar background
-        leading: Image.asset('icons/jailtracklogo.png'), // Logo image on the left
-        title: const Text('JailTrack'),
+        backgroundColor:
+            Colors.grey[900], // Dark grey color for the app bar background
+        titleSpacing:
+            0.0, // Remove default spacing between title and leading widget
+
+        title: Row(
+          children: [
+            Image.asset(
+              'icons/JailTrackLogo.png', // Provide the path to your logo image
+              height: 60,
+              width: 60, // Adjust the height of the logo as needed
+            ),
+            const SizedBox(width: 8), // Add space between logo and title
+            const Text(
+              'JAILTRACK',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the app bar text
+            ),
+          ],
+        ),
+
         actions: [
           TextButton(
             onPressed: () {
               Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(
-                  builder: (context) => const MyApp(),
-                ),
+                MaterialPageRoute(builder: (context) => const MyApp()),
               );
             },
             child: const Text(
-              'Sign in',
-              style: TextStyle(color: Color.fromARGB(255, 241, 241, 241)),
+              'Login',
+              style: TextStyle(
+                color: Colors.white,
+              ), // White color for the logout text
             ),
           ),
         ],
@@ -34,7 +53,8 @@ class SignInPage extends StatelessWidget {
           // Background image with opacity
           GestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: () {}, // This empty onTap handler ensures the GestureDetector captures tap events
+            onTap:
+                () {}, // This empty onTap handler ensures the GestureDetector captures tap events
             child: ColorFiltered(
               colorFilter: ColorFilter.mode(
                 const Color.fromARGB(255, 206, 201, 201).withOpacity(0.30),
@@ -79,7 +99,8 @@ class SignInPage extends StatelessWidget {
                         hintText: 'Jail Facility Name',
                         hintStyle: TextStyle(color: Colors.grey),
                       ),
-                      style: TextStyle(color: Colors.black), // Text color changed to black
+                      style: TextStyle(
+                          color: Colors.black), // Text color changed to black
                     ),
                     const SizedBox(height: 20.0),
                     const TextField(
